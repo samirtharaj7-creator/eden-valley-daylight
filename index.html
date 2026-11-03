@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eden Valley Institute of Wellness — A New Day for Your Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#618342;--lime:#90C464;--blue:#4585A9;--gold:#D6BA00;--ink:#1f2d17;--mute:#4f5f46}
+*{box-sizing:border-box;margin:0}
+body{font-family:Outfit,sans-serif;color:var(--ink);line-height:1.65;background:#3a6f96;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;line-height:1.04;letter-spacing:-.01em}
+
+/* fixed sky layers */
+#sky{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#3a6f96,#f3dca0)}
+#stars{position:fixed;inset:0;z-index:0;opacity:0;pointer-events:none;background-image:radial-gradient(2px 2px at 8% 18%,#fff,transparent),radial-gradient(1.5px 1.5px at 22% 9%,#fff,transparent),radial-gradient(2px 2px at 37% 26%,#fff,transparent),radial-gradient(1.2px 1.2px at 48% 12%,#fff,transparent),radial-gradient(2px 2px at 61% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 74% 8%,#fff,transparent),radial-gradient(2px 2px at 86% 22%,#fff,transparent),radial-gradient(1.2px 1.2px at 15% 40%,#fff,transparent),radial-gradient(1.5px 1.5px at 56% 44%,#fff,transparent),radial-gradient(1.2px 1.2px at 93% 42%,#fff,transparent),radial-gradient(1px 1px at 30% 34%,#fff,transparent),radial-gradient(1px 1px at 68% 18%,#fff,transparent)}
+#sun{position:fixed;z-index:1;left:0;top:0;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;pointer-events:none;will-change:transform;
+ background:radial-gradient(circle,#fffbe0 0 22%,#ffe46a 34%,#f5cf2a66 48%,#f5cf2a22 62%,transparent 72%)}
+#halo{position:fixed;z-index:1;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;will-change:transform;background:radial-gradient(circle,#fff3b055 0,#fff3b022 35%,transparent 65%)}
+#moon{position:fixed;z-index:1;right:9vw;top:104px;width:46px;height:46px;border-radius:50%;box-shadow:-14px 10px 0 0 #f4f1dc;opacity:0;transform:rotate(-20deg);pointer-events:none}
+/* the real valley: aerial photo of Eden Valley, faded into the sky at the top and color-graded by time of day */
+#land{position:fixed;left:0;right:0;bottom:0;z-index:2;pointer-events:none;height:58vh;min-height:300px;overflow:hidden;
+ -webkit-mask-image:linear-gradient(transparent 0,#000 34%);mask-image:linear-gradient(transparent 0,#000 34%)}
+#land .ph{position:absolute;inset:0;background:url("https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/0b903036-a6c8-4cfd-a6e0-ce7803f086e9/DJI_20250529191036_0129_D.png?format=2500w") center 30%/cover;will-change:filter}
+#land .tint{position:absolute;inset:0;mix-blend-mode:multiply}
+#land .shade{position:absolute;inset:0;background:linear-gradient(transparent 55%,#0d1a1066)}
+
+/* nav */
+nav{position:fixed;top:14px;left:3vw;right:3vw;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:10px 12px 10px 22px;border-radius:999px;background:#ffffffd9;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 40px #0d203022}
+nav .logo img{height:42px;display:block}
+nav ul{display:flex;gap:4px;list-style:none;padding:0}
+nav ul a{display:block;padding:9px 16px;border-radius:999px;font-weight:500;font-size:15px;transition:.2s}
+nav ul a:hover,nav ul a.on{background:#61834218;color:var(--green)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;background:var(--gold);color:#241f00;font-weight:600;transition:.25s;white-space:nowrap;border:0;font:inherit;font-weight:600;cursor:pointer}
+.pill:hover{transform:translateY(-2px);box-shadow:0 12px 26px #0003}
+.pill.g{background:#ffffff38;color:#fff;border:1px solid #ffffffa0;backdrop-filter:blur(8px)}
+.pill.green{background:var(--green);color:#fff}
+.burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
+.burger span{display:block;height:2px;background:var(--ink);margin:6px 9px;transition:.3s}
+
+/* time rail */
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:6px}
+.rail a{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:#fff;text-shadow:0 1px 8px #0006;padding:4px 0}
+.rail a span{opacity:0;transform:translateX(6px);transition:.3s}
+.rail a i{width:10px;height:10px;border-radius:50%;background:#ffffff90;border:1px solid #0002;transition:.3s}
+.rail:hover a span{opacity:1;transform:none}
+.rail:hover{background:#0e1c2866;border-radius:16px;padding:8px 12px;margin-right:-12px}
+.rail a.on i{background:var(--gold);transform:scale(1.5);box-shadow:0 0 12px #ffe46a}
+
+/* scenes */
+main{position:relative;z-index:5}
+.scene{min-height:100vh;display:flex;align-items:center;padding:130px max(7vw,70px) 30vh 7vw}
+.in{max-width:1140px;margin:auto;width:100%}
+.clock{font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.clock:before{content:"";width:36px;height:1.5px;background:currentColor}
+.clock b{font-weight:600;opacity:.65}
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.js .rv.shown{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}}
+
+.hero{color:#fff}
+.hero h1{font-size:clamp(52px,8.4vw,128px);max-width:12ch;text-shadow:0 4px 40px #0d203040}
+.hero h1 em{color:#FFF2A0}
+.hero p{font-size:20px;max-width:540px;margin:24px 0 32px;font-weight:400;text-shadow:0 1px 3px #0d2030b0,0 2px 22px #0d2030cc}
+.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:70%;background:radial-gradient(ellipse at 20% 50%,#0d203070,transparent 70%);pointer-events:none;z-index:-1}
+.hero{position:relative}
+.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:14px;margin-top:40px;padding:10px 20px 10px 10px;border-radius:999px;background:#ffffffd9;color:var(--ink);font-size:14.5px;box-shadow:0 10px 30px #0d203022}
+.chip b{background:var(--green);color:#fff;border-radius:999px;padding:6px 14px;font-weight:600;font-size:12.5px;letter-spacing:.06em}
+
+.glass{background:#ffffffd6;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffff99;border-radius:32px;box-shadow:0 30px 70px #0d20301f}
+.glass.dk{background:#0e1c28b3;border-color:#ffffff26;color:#f2f5ef}
+.card{padding:48px}
+h2{font-size:clamp(38px,5vw,70px)}
+h2 em{font-style:italic;color:var(--green)}
+.dk h2 em{color:#FFE97A}
+.lede{font-size:18px;margin-top:16px;color:var(--mute);max-width:560px}
+.dk .lede{color:#cfd9d9}
+
+/* morning */
+.split{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.mission{font-family:'Playfair Display';font-style:italic;font-size:24px;line-height:1.35;color:var(--green);border-left:3px solid var(--gold);padding-left:20px;margin-top:26px}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.nums div{padding:26px;border-radius:24px}
+.nums b{font-family:'Playfair Display';font-size:56px;font-weight:500;line-height:1;display:block;color:var(--blue)}
+.nums div:nth-child(2) b{color:var(--green)}.nums div:nth-child(3) b{color:#a38f00}.nums div:nth-child(4) b{color:var(--green)}
+.nums small{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--mute)}
+
+/* midday programs */
+.light{color:#fff}
+.light h2{text-shadow:0 2px 30px #0d203066,0 1px 3px #0d203040}
+.prow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.pc{padding:30px;border-radius:28px;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;transition:transform .35s,box-shadow .35s;position:relative;overflow:hidden;color:#fff;isolation:isolate;box-shadow:0 24px 50px #0d203033}
+.pc:before{content:"";position:absolute;inset:0;z-index:-2;background:var(--img) center/cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.pc:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 20%,transparent) 0%,color-mix(in srgb,var(--c) 78%,transparent) 42%,var(--c) 90%)}
+.pc:hover{transform:translateY(-8px)}
+.pc:hover:before{transform:scale(1.07)}
+.pc small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;opacity:.85}
+.pc h3{font-size:30px;margin:10px 0 8px}
+.pc p{font-size:15.5px;opacity:.92}
+.pc .go{font-weight:600;margin-top:18px;display:inline-flex;gap:8px;transition:.2s}
+.pc:hover .go{gap:14px}
+.mkt{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 18px 18px 28px;border-radius:999px}
+.mkt b{font-family:'Playfair Display';font-size:22px}
+
+/* afternoon: stay */
+.stay{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.inc{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.inc li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:18px;background:#ffffff99;font-size:15px;line-height:1.35}
+.inc li i{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:15px;color:#fff;background:var(--green)}
+.inc li:nth-child(4n+2) i{background:var(--blue)}.inc li:nth-child(4n+3) i{background:#b39b00}.inc li:nth-child(4n) i{background:var(--lime);color:var(--ink)}
+.inc li b{display:block;font-weight:600}
+.inc li span{color:var(--mute);font-size:13.5px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.shots figure{margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5}
+.shots img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.shots figure:hover img{transform:scale(1.06)}
+.shots figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;font-size:12px;font-weight:600;color:#fff;background:linear-gradient(transparent,#000a)}
+.storyimg{width:100%;height:170px;object-fit:cover;border-radius:18px;margin:18px 0 4px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips span{font-size:13.5px;padding:7px 14px;border-radius:999px;background:#61834214;border:1px solid #61834233}
+.call{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+
+/* golden: story + events */
+.gold2{display:grid;grid-template-columns:1fr 1.1fr;gap:28px}
+.tl{list-style:none;padding:0;margin-top:22px;position:relative}
+.tl:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(#FFE97A,#ffffff22)}
+.tl li{padding:0 0 20px 34px;position:relative}
+.tl li:before{content:"";position:absolute;left:0;top:6px;width:16px;height:16px;border-radius:50%;background:#FFE97A;box-shadow:0 0 0 4px #ffe97a33}
+.tl b{font-family:'Playfair Display';font-size:26px;font-weight:500;color:#FFE97A;display:block;line-height:1.1}
+.tl p{font-size:14.5px;color:#d6dedd}
+.ev{list-style:none;padding:0;margin-top:16px}
+.ev li a{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #ffffff22;transition:.2s}
+.ev li a:hover{padding-left:8px}
+.ev .d{text-align:center;border-radius:14px;background:#ffffff14;padding:8px 0;line-height:1.1}
+.ev .d b{display:block;font-family:'Playfair Display';font-size:24px;color:#FFE97A;font-weight:500}
+.ev .d small{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.ev h4{font-weight:500;font-size:16.5px}.ev p{font-size:13px;color:#b9c7c8}
+.ev .go{font-size:13px;font-weight:600;color:#FFE97A}
+
+/* dusk: give */
+.give{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.give .light p{font-size:19px;font-weight:300;margin-top:18px;max-width:520px;text-shadow:0 1px 14px #0005}
+.funds{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.funds span{font-size:13px;padding:7px 14px;border-radius:999px;background:#ffffff1f;border:1px solid #ffffff38;color:#fff}
+.gcard{padding:36px}
+.gcard h3{font-size:28px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#ffffff14;border-radius:999px;padding:4px;margin:18px 0 12px}
+.seg button,.amts button{font:inherit;font-weight:600;border:0;background:none;color:#e6eceb;border-radius:999px;padding:10px 0;cursor:pointer;transition:.2s}
+.seg button.on{background:#fff;color:#1e3a52}
+.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.amts button{border:1px solid #ffffff4d;border-radius:16px;padding:14px 0;font-size:16px}
+.amts button.on{background:var(--gold);border-color:var(--gold);color:#241f00}
+.gcard .pill{width:100%;justify-content:center;margin-top:16px}
+.gcard .fine{font-size:12.5px;text-align:center;margin-top:12px;color:#b9c7c8}
+
+/* night */
+.night{text-align:center;color:#fff}
+.night .logo{height:150px;width:auto;max-width:90%;margin:0 auto 26px;display:block}
+.news{display:flex;gap:8px;max-width:520px;margin:26px auto 0;padding:6px;border-radius:999px;background:#ffffff1a;border:1px solid #ffffff38}
+.news input{flex:1;min-width:0;border:0;outline:0;background:none;color:#fff;font:inherit;padding:0 18px}
+.news input::placeholder{color:#ffffffa0}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:70px;text-align:left;padding:30px 34px}
+.cols h5{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#FFE97A;margin-bottom:10px}
+.cols p,.cols a{font-size:14.5px;color:#dbe3e3;display:block;line-height:1.8}
+.cols a:hover{color:#fff}
+.copy{margin-top:22px;font-size:12.5px;opacity:.55}
+
+@media(max-width:1060px){
+ nav ul{position:fixed;top:84px;left:3vw;right:3vw;flex-direction:column;background:#fffffff2;border-radius:24px;padding:10px;box-shadow:0 20px 50px #0d203033;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.3s}
+ nav ul a{padding:14px 18px}
+ nav.open ul{opacity:1;transform:none;pointer-events:auto}
+ .burger{display:block}nav .apply{display:none}
+ nav.open .burger span:nth-child(1){transform:translateY(8px) rotate(45deg)}nav.open .burger span:nth-child(2){opacity:0}nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+}
+@media(max-width:900px){
+ .rail{display:none}
+ .split,.stay,.gold2,.give{grid-template-columns:1fr}
+ .prow{grid-template-columns:1fr}.pc{min-height:230px}
+ .cols{grid-template-columns:1fr}
+ .scene{padding:120px 5vw 26vh}
+ .card,.gcard{padding:30px 24px}
+ #sun{width:110px;height:110px;margin:-55px 0 0 -55px}
+}
+@media(max-width:560px){.clock b{display:none}nav .logo img{height:36px}.inc{grid-template-columns:1fr}.nums b{font-size:44px}.news{flex-direction:column;border-radius:22px}.news input{padding:12px 14px}.ev li a{grid-template-columns:62px 1fr}.ev .go{display:none}.mkt{border-radius:24px}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="pine" viewBox="0 0 20 46"><path d="M10 0 L16 14 L13 14 L18 26 L14 26 L20 40 L11 40 L11 46 L9 46 L9 40 L0 40 L6 26 L2 26 L7 14 L4 14Z"/></symbol></defs></svg>
+
+<div id="sky"></div><div id="stars"></div><div id="moon"></div>
+<div id="halo"></div><div id="sun"></div>
+<div id="land" aria-hidden="true"><div class="ph" id="ph"></div><div class="tint" id="tint"></div><div class="shade"></div></div>
+
+<nav id="nav">
+  <a class="logo" href="#s0"><img src="assets/logo-h.png" alt="Eden Valley Institute of Wellness"></a>
+  <ul id="links"><li><a href="#s1">About</a></li><li><a href="#s2">Programs</a></li><li><a href="#s3">Your stay</a></li><li><a href="#s4">Events</a></li><li><a href="#">Eden Market</a></li><li><a href="#s5">Donate</a></li></ul>
+  <a class="pill apply" href="#">Apply now</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="rail" id="rail">
+  <a href="#s0"><span>Dawn</span><i></i></a><a href="#s1"><span>Morning</span><i></i></a><a href="#s2"><span>Midday</span><i></i></a><a href="#s3"><span>Afternoon</span><i></i></a><a href="#s4"><span>Golden hour</span><i></i></a><a href="#s5"><span>Dusk</span><i></i></a><a href="#s6"><span>Night</span><i></i></a>
+</div>
+
+<main>
+  <!-- DAWN -->
+  <section class="scene hero" id="s0"><div class="in">
+    <div class="clock">Dawn <b>· Loveland, Colorado</b></div>
+    <h1>A new day for your <em>health</em> begins here.</h1>
+    <p>A natural remedies wellness center and school, nestled in a quiet valley among the foothills of the Colorado Rockies.</p>
+    <div class="btns"><a class="pill" href="#">Book a free discovery call</a><a class="pill g" href="#s1">Walk with the sun ↓</a></div>
+    <a class="chip" href="#s4"><b>NEXT SESSION</b>10-day wellness program · Nov 15–25, 2026</a>
+  </div></section>
+
+  <!-- MORNING -->
+  <section class="scene" id="s1"><div class="in split">
+    <div class="glass card rv">
+      <div class="clock" style="color:var(--blue)">Morning <b>· Who we are</b></div>
+      <h2>Education that <em>heals.</em></h2>
+      <p class="lede">For more than 60 years, Eden Valley has offered natural health education. Our 14-day live-in programs help guests adopt lifestyles that address diabetes, cancer, obesity, and heart disease.</p>
+      <p class="mission">“Our mission is to see lives transformed by God’s principles of education and healing.”</p>
+    </div>
+    <div class="nums">
+      <div class="glass rv"><b data-count="200">200+</b><small>Guests each year</small></div>
+      <div class="glass rv"><b data-count="60">60+</b><small>Years of healing</small></div>
+      <div class="glass rv"><b data-count="550">550</b><small>Acres of valley</small></div>
+      <div class="glass rv"><b data-count="5">5+</b><small>Locations worldwide</small></div>
+    </div>
+  </div></section>
+
+  <!-- MIDDAY -->
+  <section class="scene" id="s2"><div class="in light">
+    <div class="rv"><div class="clock">Midday <b>· Programs</b></div><h2>Three ways to grow.</h2></div>
+    <div class="prow">
+      <a class="pc rv" href="#" style="--img:url('https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/a3612cd0-854d-4a09-938d-c4bae7fa423e/DSC00559-15.jpg?format=1000w');--c:#2f6283"><div><small>14 days · live-in</small><h3>Wellness Programs</h3><p>An immersive 14-day program addressing lifestyle diseases through education and natural therapies.</p></div><span class="go">Learn more →</span></a>
+      <a class="pc rv" href="#" style="--img:url('https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/2d163731-6ecd-4776-9a66-c4fca82cdd21/DSC08129-47.jpg?format=1000w');--c:#3c5a28"><div><small>Hands-on training</small><h3>Agricultural Programs</h3><p>Hands-on training in organic agriculture and farm management at Eden Valley Farm.</p></div><span class="go">Visit the farm →</span></a>
+      <a class="pc rv" href="#" style="--img:url('https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/785f649c-2c64-45ef-9cf7-0b3c5e7002b5/mmetp22-26.jpg?format=1000w');--c:#6e5f00"><div><small>6-month course</small><h3>Medical Missionary Evangelism Training</h3><p>A 6-month course combining natural remedies with evangelism.</p></div><span class="go">Apply →</span></a>
+    </div>
+    <div class="glass mkt rv" style="color:var(--ink)"><div><b>Eden Market</b> <span style="color:var(--mute)">— natural foods and health products from the valley.</span></div><a class="pill green" href="#">Shop the market</a></div>
+  </div></section>
+
+  <!-- AFTERNOON -->
+  <section class="scene" id="s3"><div class="in stay">
+    <div class="glass card rv">
+      <div class="clock" style="color:var(--blue)">Afternoon <b>· Your 14 days</b></div>
+      <h2>Two weeks to <em>reset.</em></h2>
+      <p class="lede">Live on campus with whole-food meals, natural therapies and daily teaching — then keep going with eight weeks of aftercare at home.</p>
+      <div class="shots">
+        <figure><img src="https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/6b8d0286-dcf1-46e7-b3cc-f4000079243a/20250424-DSC00512.jpg?format=750w" alt="Plant-based breakfast of fruit, nuts and berries" loading="lazy"><figcaption>Whole-food meals</figcaption></figure>
+        <figure><img src="https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/fa350c9f-c7f2-4a4f-8f76-e0f057c993b9/EVlifestylephoto-631.jpg?format=750w" alt="Guest resting in the hyperbaric oxygen chamber" loading="lazy"><figcaption>Hyperbaric oxygen</figcaption></figure>
+        <figure><img src="https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/7e6c72f4-f394-47e2-9100-56b2a9fbcbcf/20240916-161357_orig.jpg?format=750w" alt="Bright guest room with a queen bed" loading="lazy"><figcaption>Comfortable rooms</figcaption></figure>
+      </div>
+      <div class="chips"><span>Cancer</span><span>Diabetes</span><span>Heart disease</span><span>High blood pressure</span><span>Arthritis</span><span>Anxiety &amp; depression</span><span>Lyme disease</span><span>Weight &amp; stress</span></div>
+      <div class="call"><a class="pill green" href="#">Apply online</a><a class="pill" href="tel:+19706697730">Call (970) 669-7730</a></div>
+    </div>
+    <ul class="glass card inc rv">
+      <li><i>✿</i><div><b>Plant-based meals</b><span>plus two-day juice fasts</span></div></li>
+      <li><i>≈</i><div><b>Hydrotherapy</b><span>sauna or fever bath</span></div></li>
+      <li><i>○</i><div><b>Hyperbaric oxygen</b><span>Cancer/Lyme program</span></div></li>
+      <li><i>✋</i><div><b>Massage therapy</b><span>throughout your stay</span></div></li>
+      <li><i>✚</i><div><b>Doctor consultation</b><span>a plan for your needs</span></div></li>
+      <li><i>❝</i><div><b>Health lectures</b><span>evidence-based teaching</span></div></li>
+      <li><i>▲</i><div><b>Exercise &amp; outings</b><span>group &amp; fitness center</span></div></li>
+      <li><i>✓</i><div><b>8-week aftercare</b><span>support back home</span></div></li>
+    </ul>
+  </div></section>
+
+  <!-- GOLDEN HOUR -->
+  <section class="scene" id="s4"><div class="in gold2">
+    <div class="glass dk card rv">
+      <div class="clock" style="color:#FFE97A">Golden hour <b>· Our story</b></div>
+      <h2>Rooted here <em>since 1962.</em></h2>
+      <img class="storyimg" src="https://images.squarespace-cdn.com/content/v1/67e5d1a1bf57e858ad8bae53/3d4a75b6-bef7-42f7-bbc2-8b52ff60003e/DJI_0003.JPG?format=1000w" alt="Aerial view of the Eden Valley campus among the foothills" loading="lazy">
+      <ul class="tl">
+        <li><b>1961</b><p>Harold &amp; Effie Grosboll and Pete &amp; Ann Borris set out to start a self-supporting ministry.</p></li>
+        <li><b>1962</b><p>Eden Valley is incorporated in a valley west of Loveland already called “Eden Valley.”</p></li>
+        <li><b>1982</b><p>The lifestyle center opens for people in health crisis.</p></li>
+        <li><b>Today</b><p>Wellness, farm, missionary school and market — with ministries in many countries.</p></li>
+      </ul>
+    </div>
+    <div class="glass dk card rv">
+      <div class="clock" style="color:#FFE97A">Coming up</div>
+      <h2 style="font-size:clamp(34px,3.6vw,50px)">Gather with us.</h2>
+      <ul class="ev">
+        <li><a href="#"><div class="d"><b>8</b><small>Nov</small></div><div><h4>Farmers Market — final weeks</h4><p>Through November 8, 2026</p></div><span class="go">Details</span></a></li>
+        <li><a href="#"><div class="d"><b>15</b><small>Nov</small></div><div><h4>10-Day Wellness Program</h4><p>November 15–25, 2026</p></div><span class="go">Apply</span></a></li>
+        <li><a href="#"><div class="d"><b>3</b><small>Jan</small></div><div><h4>14-Day Wellness Program</h4><p>January 3–17, 2027 · tentative</p></div><span class="go">Apply</span></a></li>
+        <li><a href="#"><div class="d"><b>Now</b><small>Online</small></div><div><h4>Farm Soil Science Class</h4><p>Learn at your own pace</p></div><span class="go">Enroll</span></a></li>
+        <li><a href="#"><div class="d"><b>Now</b><small>Online</small></div><div><h4>Adner’s Secrets of Success Gardener’s Course</h4><p>Available online</p></div><span class="go">Enroll</span></a></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- DUSK -->
+  <section class="scene" id="s5"><div class="in give">
+    <div class="light rv">
+      <div class="clock" style="color:#FFE97A">Dusk <b>· Give</b></div>
+      <h2 style="text-shadow:0 2px 30px #0005">Be the light for someone else.</h2>
+      <p>Eden Valley is a nonprofit supporting ministry. Your tax-deductible gift supports guests, students and satellite missions around the world.</p>
+      <div class="funds"><span>General Fund</span><span>Construction Project</span><span>Generator Project</span><span>Satellite Missions</span><span>Worthy Student Fund</span><span>Worthy Guest Fund</span><span>Health Emphasis Weekends</span></div>
+    </div>
+    <div class="glass dk gcard rv">
+      <h3>Make a gift</h3>
+      <div class="seg" id="seg"><button class="on">One-time</button><button>Monthly</button><button>Annual</button></div>
+      <div class="amts" id="amts"><button>$10</button><button>$20</button><button class="on">$100</button><button>$250</button></div>
+      <a class="pill" href="#" id="giveBtn">Give $100 today</a>
+      <p class="fine">Option to cover the 3% processing fee at checkout.</p>
+    </div>
+  </div></section>
+
+  <!-- NIGHT -->
+  <section class="scene night" id="s6" style="padding-bottom:22vh"><div class="in">
+    <img class="logo rv" src="assets/logo-stacked-reverse.png" alt="Eden Valley Institute of Wellness">
+    <h2 class="rv">Rest well. <em style="color:#FFE97A">Tomorrow is new.</em></h2>
+    <p class="rv" style="opacity:.85;margin-top:14px;font-size:18px">Health tips, program dates and stories from the valley.</p>
+    <form class="news rv" onsubmit="event.preventDefault();this.querySelector('button').textContent='Thank you!'"><input type="email" placeholder="Your email address" aria-label="Email address"><button class="pill" type="submit">Sign up</button></form>
+    <div class="glass dk cols rv">
+      <div><h5>Visit</h5><p>9325 World Mission Dr.<br>Loveland, CO 80538</p><p>Mon–Thu 8am–5pm · Fri 8am–1pm</p></div>
+      <div><h5>Contact</h5><a href="tel:+19706671770">Office (970) 667-1770</a><a href="tel:+19706697730">Lifestyle Center (970) 669-7730</a><a href="mailto:office@eden-valley.org">office@eden-valley.org</a></div>
+      <div><h5>Get involved</h5><a href="#">Missionary staff</a><a href="#">Internship</a><a href="#">Volunteer positions</a><a href="#s5">Donate</a></div>
+    </div>
+    <p class="copy">© 2026 Eden Valley Institute of Wellness · A supporting ministry of Seventh-day Adventist laypeople · Concept 7 — Daylight</p>
+  </div></section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const nav=$('nav'),burger=$('burger');
+burger.onclick=()=>{const o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+document.querySelectorAll('#links a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+
+// Sky keyframes: [progress, top rgb, bottom rgb]
+const K=[[0,[46,94,136],[245,212,150]],[.17,[79,145,190],[214,233,226]],[.36,[64,138,196],[192,224,242]],[.55,[84,146,188],[240,232,192]],[.72,[112,128,162],[250,196,108]],[.86,[44,66,104],[198,118,92]],[1,[10,20,36],[26,42,56]]];
+const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+const at=p=>{let i=0;while(i<K.length-2&&p>K[i+1][0])i++;const a=K[i],b=K[i+1],t=Math.min(1,Math.max(0,(p-a[0])/(b[0]-a[0])));return[mix(a[1],b[1],t),mix(a[2],b[2],t)]};
+const rgb=c=>`rgb(${c})`;
+// Photo grading keyframes: [progress, brightness, saturate, sepia, tint rgba]
+const G=[[0,.82,.9,.28,[255,176,140,.32]],[.17,.98,1,.08,[255,236,210,.12]],[.36,1.04,1.1,0,[255,255,255,0]],[.55,1,1.08,.1,[255,232,190,.14]],[.72,.92,1.22,.38,[255,170,70,.34]],[.86,.58,.9,.3,[130,86,150,.42]],[1,.3,.6,0,[22,40,92,.7]]];
+const grade=p=>{let i=0;while(i<G.length-2&&p>G[i+1][0])i++;const a=G[i],b=G[i+1],t=Math.min(1,Math.max(0,(p-a[0])/(b[0]-a[0]))),l=(x,y)=>x+(y-x)*t;
+ return{b:l(a[1],b[1]),s:l(a[2],b[2]),se:l(a[3],b[3]),c:a[4].map((v,k)=>l(v,b[4][k]))}};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scenes=[...document.querySelectorAll('.scene')],rail=[...document.querySelectorAll('#rail a')],navLinks=[...document.querySelectorAll('#links a')];
+function upd(){
+  const h=document.documentElement.scrollHeight-innerHeight,p=reduce?0.3:Math.min(1,Math.max(0,scrollY/h));
+  const [top,bot]=at(p);
+  $('sky').style.background=`linear-gradient(180deg,${rgb(top)},${rgb(bot)})`;
+  // sun arcs from left horizon to right horizon, setting by dusk
+  const sp=Math.min(1,p/0.9),x=innerWidth*(.06+.86*sp),y=innerHeight*.74-Math.sin(Math.PI*sp)*innerHeight*.6;
+  const t=`translate(${x}px,${y}px)`;$('sun').style.transform=t;$('halo').style.transform=t;
+  const fade=Math.max(0,1-Math.max(0,p-.84)*9);$('sun').style.opacity=fade;$('halo').style.opacity=fade;
+  $('sun').style.filter=`hue-rotate(${-Math.max(0,p-.6)*60}deg)`;
+  const night=Math.max(0,(p-.84)*6.25);$('stars').style.opacity=night;$('moon').style.opacity=night;
+  const g=grade(p);$('ph').style.filter=`brightness(${g.b}) saturate(${g.s}) sepia(${g.se})`;
+  $('tint').style.background=`rgba(${g.c.slice(0,3).map(Math.round)},${g.c[3].toFixed(3)})`;
+  nav.style.background=p>.82?'#0e1c28cc':'';
+  nav.querySelector('.logo img').src=p>.82?'assets/logo-h-reverse.png':'assets/logo-h.png';
+  navLinks.forEach(a=>a.style.color=p>.82?'#fff':'');
+  burger.querySelectorAll('span').forEach(s=>s.style.background=p>.82?'#fff':'');
+  let cur=0;scenes.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.5)cur=i});
+  rail.forEach((r,i)=>r.classList.toggle('on',i===cur));
+  navLinks.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+scenes[cur].id));
+}
+let raf=0;addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;upd()})},{passive:true});addEventListener('resize',upd);upd();
+
+// reveal + count-up
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('shown');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>{const sib=[...el.parentElement.children].filter(c=>c.classList.contains('rv'));el.style.transitionDelay=(sib.indexOf(el)%6)*100+'ms';io.observe(el)});
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,end=+el.dataset.count,suf=el.textContent.replace(/[0-9]/g,''),t0=performance.now();
+ (function f(t){const q=Math.min(1,(t-t0)/1400);el.textContent=Math.round(end*(1-Math.pow(1-q,3)))+suf;if(q<1)requestAnimationFrame(f)})(t0)}),{threshold:.6});
+if(!reduce)document.querySelectorAll('[data-count]').forEach(n=>co.observe(n));
+// give picker
+const pick=id=>document.querySelectorAll(id+' button').forEach(b=>b.onclick=()=>{document.querySelectorAll(id+' button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ const a=document.querySelector('#amts .on').textContent,f=document.querySelector('#seg .on').textContent;$('giveBtn').textContent=f==='One-time'?`Give ${a} today`:`Give ${a} ${f.toLowerCase()}`});
+pick('#amts');pick('#seg');
+</script>
+</body>
+</html>
